@@ -1,6 +1,9 @@
 # Example file showing a basic pygame "game loop"
 """
 This template was taken from my computer science teacher
+Some code will most likely be taken from the "game.py" file
+or will be taken from websites like StackOverflow, W3Schools and other sites that I'll either add here
+or will say when it appears
 """
 import pygame
 
