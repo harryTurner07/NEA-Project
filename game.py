@@ -1,4 +1,12 @@
-# Example file showing a basic pygame "game loop"
+"""
+A big majority of code here will most likely be from sources like StackOverflow, W3Schools and other sites that I'll either add here
+or will say when it appears
+The main stuff here that sets up the rendering and things are from my computer science teacher
+(Though he could have gotten it from other sources too :/ )
+Don't penalise me cause of plagiarism :)
+"""
+
+
 import pygame
 import random
 
@@ -89,19 +97,19 @@ while running:
     keys = pygame.key.get_pressed()
 
     # if left arrow key is pressed 
-    if keys[pygame.K_LEFT]: 
+    if keys[pygame.K_a]: 
         # decrement in x co-ordinate 
         circle_x -= circle_x_vel
     # if left arrow key is pressed 
-    if keys[pygame.K_RIGHT]: 
+    if keys[pygame.K_d]: 
         # increment in x co-ordinate 
         circle_x += circle_x_vel
     # if left arrow key is pressed    
-    if keys[pygame.K_UP]: 
+    if keys[pygame.K_w]: 
         # decrement in y co-ordinate 
         circle_y -= circle_x_vel
     # if left arrow key is pressed    
-    if keys[pygame.K_DOWN]: 
+    if keys[pygame.K_s]: 
         # increment in y co-ordinate 
         circle_y += circle_x_vel
     
