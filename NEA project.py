@@ -36,11 +36,13 @@ while running:
     player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
 
     # Borders - Temporary
-    # Idea is that the player gets teleported back when they reach that position
+    # Idea is that the player gets "teleported" back when they reach that position
+    # X coordinates
     if player_x < 1:
         player_x = 1
     if player_x > (WIDTH - 1):
         player_x = (WIDTH - 1)
+    # Y coordinates
     if player_y < 1:
         player_y = 1
     if player_y > (HEIGHT - 1):
