@@ -9,9 +9,17 @@ import pygame
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
-clock = pygame.time.Clock()
+pygame.display.set_caption("NEA Project")
+WIDTH = 1280
+HEIGHT = 720
+FPS = 60
+SCREEN= pygame.display.set_mode((WIDTH, HEIGHT))
+CLOCK = pygame.time.Clock()
 running = True
+player_x = 100
+player_y = 100
+player_radius = 5
+player_vel = 5
 
 while running:
     # poll for events
@@ -21,13 +29,37 @@ while running:
             running = False
 
     # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
+    SCREEN.fill("black")
 
-    # RENDER YOUR GAME HERE
+    """ RENDER YOUR GAME HERE """
+    # Temporary place for the player
+    player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
+
+    # Stores the keys pressed
+    keys = pygame.key.get_pressed()
+
+    # This was taken from game.py - Don't think the code was taken from anywhere
+
+    # if a (left) key is pressed 
+    if keys[pygame.K_a]: 
+        # decrement in x co-ordinate 
+        player_x -= player_vel
+    # if d (right) key is pressed 
+    if keys[pygame.K_d]: 
+        # increment in x co-ordinate 
+        player_x += player_vel
+    # if w (up) key is pressed    
+    if keys[pygame.K_w]: 
+        # decrement in y co-ordinate 
+        player_y -= player_vel
+    # if s (down) key is pressed    
+    if keys[pygame.K_s]: 
+        # increment in y co-ordinate 
+        player_y += player_vel
 
     # flip() the display to put your work on screen
     pygame.display.flip()
 
-    clock.tick(60)  # limits FPS to 60
+    CLOCK.tick(FPS)  # limits FPS to 60
 
 pygame.quit()
