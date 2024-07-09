@@ -32,10 +32,12 @@ while running:
     SCREEN.fill("black")
 
     """ RENDER YOUR GAME HERE """
-    # Temporary place for the player
-    player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
+    #player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
+    # Old code for rendering the player as a drawn object
+    player = pygame.image.load("Test-Image.png")
+    SCREEN.blit(player,(player_x, player_y))
 
-    # Borders - Temporary
+    # Borders - Temporary, but works at the moment
     # Idea is that the player gets "teleported" back when they reach that position
     # X coordinates
     if player_x < 1:
