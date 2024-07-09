@@ -29,7 +29,7 @@ while running:
             running = False
 
     # fill the screen with a color to wipe away anything from last frame
-    SCREEN.fill("black")
+    SCREEN.fill("orange")
 
     """ RENDER YOUR GAME HERE """
     #player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
