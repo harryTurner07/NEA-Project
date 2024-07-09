@@ -18,7 +18,7 @@ CLOCK = pygame.time.Clock()
 running = True
 player_x = 100
 player_y = 100
-player_radius = 5
+player_radius = 10
 player_vel = 5
 
 while running:
