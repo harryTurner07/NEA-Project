@@ -18,7 +18,7 @@ CLOCK = pygame.time.Clock()
 running = True
 player_x = 100
 player_y = 100
-player_radius = 10
+player_radius = 5
 player_vel = 5
 
 while running:
@@ -39,14 +39,14 @@ while running:
     # Idea is that the player gets "teleported" back when they reach that position
     # X coordinates
     if player_x < 1:
-        player_x = 1
+        player_x = 10
     if player_x > (WIDTH - 1):
-        player_x = (WIDTH - 1)
+        player_x = (WIDTH - 9)
     # Y coordinates
     if player_y < 1:
-        player_y = 1
+        player_y = 10
     if player_y > (HEIGHT - 1):
-        player_y = (HEIGHT - 1)
+        player_y = (HEIGHT - 9)
 
     # Stores the keys pressed
     keys = pygame.key.get_pressed()
