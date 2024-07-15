@@ -15,6 +15,8 @@ HEIGHT = 720
 FPS = 60
 SCREEN= pygame.display.set_mode((WIDTH, HEIGHT))
 CLOCK = pygame.time.Clock()
+DEFAULT_PLAYER_SIZE = (64,64)
+#^^^ The image resoultion used is a 64,64 image.
 running = True
 player_x = 100
 player_y = 100
@@ -36,6 +38,9 @@ while running:
     # Old code for rendering the player as a drawn object
     player = pygame.image.load("Test-Image.png")
     SCREEN.blit(player,(player_x, player_y))
+
+    # Should hopefully always update the position of the mouse
+    mouse_pos = pygame.mouse.get_pos()
 
     # Borders - Temporary, but works at the moment
     # Idea is that the player gets "teleported" back when they reach that position
