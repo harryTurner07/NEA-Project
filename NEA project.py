@@ -20,8 +20,20 @@ DEFAULT_PLAYER_SIZE = (64,64)
 running = True
 player_x = 100
 player_y = 100
-player_radius = 5
+DEFAULT_PLAYER_POS = (player_x,player_y)
 player_vel = 5
+angle = 1
+
+# Test for making player as a class...
+# IT WORKS !!!!! <---- This will backfire in a few attempts
+class Player:
+    def __init__(self, player_x_pos, player_y_pos, player_velo,image):
+        self.player_x_pos = player_x
+        self.player_y_pos = player_y
+        self.player_velo = player_vel
+        self.image = image
+    def _playerblit_(self):
+        SCREEN.blit(self.image, (player_x, player_y))
 
 while running:
     # poll for events
@@ -36,8 +48,8 @@ while running:
     """ RENDER YOUR GAME HERE """
     #player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
     # Old code for rendering the player as a drawn object
-    player = pygame.image.load("Test-Image.png")
-    SCREEN.blit(player,(player_x, player_y))
+    #player = pygame.image.load("Test-Image.png")
+    player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
 
     # Should hopefully always update the position of the mouse
     mouse_pos = pygame.mouse.get_pos()
@@ -54,6 +66,15 @@ while running:
         player_y = 10
     if player_y > (HEIGHT - 1):
         player_y = (HEIGHT - 9)
+
+    # Scaling the image to the desired size (should already be at 64x64, this is just in case)
+    #player = pygame.transform.scale(player, DEFAULT_PLAYER_SIZE)
+    # ROTATION
+    #player = pygame.transform.rotate(player, angle=(angle))
+    #angle += 1
+    # Updating
+    #SCREEN.blit(player, (player_x, player_y))
+    player._playerblit_()
 
     # Stores the keys pressed
     keys = pygame.key.get_pressed()
