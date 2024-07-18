@@ -76,19 +76,8 @@ while running:
     # Should hopefully always update the position of the mouse
     mouse_pos = pygame.mouse.get_pos()
 
-    # Borders - Temporary, but works at the moment
-    # Idea is that the player gets "teleported" back when they reach that position
-    # X coordinates
-    if player_x < 1:
-        player_x = 10
-    if player_x > (WIDTH - 1):
-        player_x = (WIDTH - 9)
-    # Y coordinates
-    if player_y < 1:
-        player_y = 10
-    if player_y > (HEIGHT - 1):
-        player_y = (HEIGHT - 9)
 
+    """
     # Borders but for the enemy class(s)
     # X coordinates
     if enemy_x < 1:
@@ -100,7 +89,20 @@ while running:
         enemy_y = 10
     if enemy_y > (HEIGHT - 1):
         enemy_y = (HEIGHT - 9)
+    """
 
+    # Code stolen from game.py
+    # Enemy loops around
+    # For the X coordinates
+    if enemy_x < 0:
+        enemy_x = WIDTH
+    if enemy_x > WIDTH:
+        enemy_x = 0
+    # For the Y coordinates
+    if enemy_y < 0:
+        enemy_y = HEIGHT
+    if enemy_y > HEIGHT:
+        enemy_y = 0
 
     # Scaling the image to the desired size (should already be at 64x64, this is just in case)
     #player = pygame.transform.scale(player, DEFAULT_PLAYER_SIZE)
@@ -112,29 +114,49 @@ while running:
 
     # Updates the positions of the player and enemy(s)
     player._playerblit_()
+
+    #Actual enemy movement
+    rand_num = random.randint(1,20)
+    if 1 <= rand_num <= 5:
+        for i in range(10):
+            enemy_x += enemy_vel
+    if 6 <= rand_num <= 10:
+        for i in range(10):
+            enemy_y -= enemy_vel
+    if 11 <= rand_num <= 15:
+        for i in range(10):
+            enemy_x -= enemy_vel
+    if 16 <= rand_num <= 20:
+        for i in range(10):
+            enemy_y += enemy_vel
     enemy._enemyblit_()
 
     # Stores the keys pressed
     keys = pygame.key.get_pressed()
 
     # This was taken from game.py - Don't think the code was taken from anywhere
+    # !!! The "and" sections were taken from GeeksForGeeks, see the write-up
 
     # if a (left) key is pressed 
-    if keys[pygame.K_a]: 
+    if keys[pygame.K_a] and player_x> 0: 
         # decrement in x co-ordinate 
         player_x -= player_vel
     # if d (right) key is pressed 
-    if keys[pygame.K_d]: 
+    if keys[pygame.K_d] and player_x < WIDTH - 64: 
         # increment in x co-ordinate 
         player_x += player_vel
     # if w (up) key is pressed    
-    if keys[pygame.K_w]: 
+    if keys[pygame.K_w] and player_y> 0: 
         # decrement in y co-ordinate 
         player_y -= player_vel
     # if s (down) key is pressed    
-    if keys[pygame.K_s]: 
+    if keys[pygame.K_s] and player_y < HEIGHT - 64: 
         # increment in y co-ordinate 
         player_y += player_vel
+
+    # Quit Key  
+    if keys[pygame.K_ESCAPE]:
+        running = False
 
     # flip() the display to put your work on screen
     pygame.display.flip()
