@@ -18,6 +18,7 @@ def main():
     SCREEN= pygame.display.set_mode((WIDTH, HEIGHT))
     CLOCK = pygame.time.Clock()
     running = True
+    background_img = pygame.image.load("space-background.png")
 
     # Player things
     DEFAULT_PLAYER_SIZE = (64,64)
@@ -65,7 +66,9 @@ def main():
                 start_time = pygame.time.get_ticks()
 
         # fill the screen with a color to wipe away anything from last frame
-        SCREEN.fill("orange")
+        #SCREEN.fill("orange")
+        # set the background from the position 0,0
+        SCREEN.blit(background_img, (0,0))
 
         """ RENDER YOUR GAME HERE """
         #player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
