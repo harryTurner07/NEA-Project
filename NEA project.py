@@ -6,6 +6,7 @@ or will be taken from websites like StackOverflow, W3Schools and other sites tha
 or will say when it appears
 """
 import pygame
+import random
 
 # pygame setup
 pygame.init()
@@ -15,14 +16,21 @@ HEIGHT = 720
 FPS = 60
 SCREEN= pygame.display.set_mode((WIDTH, HEIGHT))
 CLOCK = pygame.time.Clock()
+running = True
+
+# Player things
 DEFAULT_PLAYER_SIZE = (64,64)
 #^^^ The image resoultion used is a 64,64 image.
-running = True
 player_x = 100
 player_y = 100
 DEFAULT_PLAYER_POS = (player_x,player_y)
 player_vel = 5
 angle = 1
+
+# Enemy 1 (shooter) things
+enemy_x = random.randint(0, WIDTH)
+enemy_y = random.randint(0, HEIGHT)
+enemy_vel = 3
 
 # Test for making player as a class...
 # IT WORKS !!!!! <---- This will backfire in a few attempts
@@ -34,6 +42,17 @@ class Player:
         self.image = image
     def _playerblit_(self):
         SCREEN.blit(self.image, (player_x, player_y))
+
+# Hopefully an enemy class
+class Enemy:
+    def __init__(self, enemy_x_pos, enemy_y_pos, enemy_velo, image):
+        self.enemy_x_pos = enemy_x
+        self.enemy_y_pos = enemy_y
+        self.enemy_velo = enemy_vel
+        self.image = image
+    def _enemyblit_(self):
+        SCREEN.blit(self.image, (enemy_x, enemy_y))
+
 
 while running:
     # poll for events
@@ -49,7 +68,10 @@ while running:
     #player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
     # Old code for rendering the player as a drawn object
     #player = pygame.image.load("Test-Image.png")
+    # Loads the player and enemy
     player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
+
+    enemy = Enemy(enemy_x, enemy_y, enemy_vel, (pygame.image.load("Test-Enemy.png")))
 
     # Should hopefully always update the position of the mouse
     mouse_pos = pygame.mouse.get_pos()
@@ -67,6 +89,19 @@ while running:
     if player_y > (HEIGHT - 1):
         player_y = (HEIGHT - 9)
 
+    # Borders but for the enemy class(s)
+    # X coordinates
+    if enemy_x < 1:
+        enemy_x = 10
+    if enemy_x > (WIDTH - 1):
+        enemy_x = (WIDTH - 9)
+    # Y coordinates
+    if enemy_y < 1:
+        enemy_y = 10
+    if enemy_y > (HEIGHT - 1):
+        enemy_y = (HEIGHT - 9)
+
+
     # Scaling the image to the desired size (should already be at 64x64, this is just in case)
     #player = pygame.transform.scale(player, DEFAULT_PLAYER_SIZE)
     # ROTATION
@@ -74,7 +109,10 @@ while running:
     #angle += 1
     # Updating
     #SCREEN.blit(player, (player_x, player_y))
+
+    # Updates the positions of the player and enemy(s)
     player._playerblit_()
+    enemy._enemyblit_()
 
     # Stores the keys pressed
     keys = pygame.key.get_pressed()
