@@ -34,6 +34,16 @@ def main():
     enemy_y = random.randint(0, HEIGHT)
     enemy_vel = 3
     start_time = 0
+    enemy_amount = []
+
+    # Midpoint stuff
+    total_x = player_x + enemy_y
+    midpoint_x = (total_x // 2)
+    total_y = player_y + enemy_y
+    midpoint_y = (total_y // 2)
+    midpoint_y2 = midpoint_y - random.randint(0,75)
+    player_x2 = player_x - 100
+    player_y2 = player_y - 100
 
     # Test for making player as a class...
     # IT WORKS !!!!! <---- This will backfire in a few attempts
@@ -47,6 +57,7 @@ def main():
             SCREEN.blit(self.image, (player_x, player_y))
 
     # Hopefully an enemy class
+    # Currently unused
     class Enemy:
         def __init__(self, enemy_x, enemy_y, enemy_vel, image):
             self.enemy_x_pos = enemy_x
@@ -56,6 +67,18 @@ def main():
         def _enemyblit_(self):
             SCREEN.blit(self.image, (enemy_x, enemy_y))
 
+
+    def enemy_xory_value_moving(enemy_x, enemy_y, player_x, player_y, enemy_vel):
+        if enemy_x < player_x:
+            while enemy_x < (player_x + random.randint(10,100)):
+                enemy_x += enemy_vel
+        elif enemy_y < enemy_y:
+            while enemy_y < (player_y + random.randint(10,100)):
+                enemy_y += enemy_vel
+
+    """
+        While running things
+    """
     while running:
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
@@ -76,10 +99,39 @@ def main():
         #player = pygame.image.load("Test-Image.png")
         # Loads the player and enemy
         player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
+        #enemy = Enemy((enemy_x + random.randint(10, 100)), (enemy_y + random.randint(10,100)), enemy_vel, (pygame.image.load("Test-Enemy.png")))
+        enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
+        enemy = pygame.image.load("Test-Enemy.png")
 
-        enemy = Enemy((random.randint(0,WIDTH)), (random.randint(0,HEIGHT)), enemy_vel, (pygame.image.load("Test-Enemy.png")))
-        enemy._enemyblit_()
+        """
+        while len(enemy_amount) != 5:
+            enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
+            enemy = pygame.image.load("Test-Enemy.png")
+            enemy_amount.append(enemy)
+        """
         
+        # If and while the enemy_x value is lower than the player_x value, increase it
+        if enemy_x < player_x2:
+            while enemy_x < player_x2:
+                enemy_x += enemy_vel
+                SCREEN.blit(enemy, (enemy_x, enemy_y))
+        
+        if enemy_y < player_y2:
+            while enemy_y < player_y2:
+                enemy_y += enemy_vel
+                SCREEN.blit(enemy, (enemy_x, enemy_y))
+        
+        if enemy_x > player_x2:
+            while enemy_x > player_x2:
+                enemy_x -= enemy_vel
+                SCREEN.blit(enemy, (enemy_x, enemy_y))
+
+        if enemy_y > player_y2:
+            while enemy_y > player_y2:
+                enemy_y -= enemy_vel
+                SCREEN.blit(enemy, (enemy_x, enemy_y))
+        
+
         # Should hopefully always update the position of the mouse
         mouse_pos = pygame.mouse.get_pos()
 
@@ -110,6 +162,21 @@ def main():
         if enemy_y > HEIGHT:
             enemy_y = 0
 
+
+        # Also stolen from game py
+        # Player loops around
+        # For the X coordinates
+        if player_x < 0:
+            player_x = WIDTH
+        if player_x > WIDTH:
+            player_x = 0
+        # For the Y coordinates
+        if player_y < 0:
+            player_y = HEIGHT
+        if player_y > HEIGHT:
+            player_y = 0
+
+
         # Scaling the image to the desired size (should already be at 64x64, this is just in case)
         #player = pygame.transform.scale(player, DEFAULT_PLAYER_SIZE)
         # ROTATION
@@ -120,10 +187,12 @@ def main():
 
         # Updates the positions of the player and enemy(s)
         player._playerblit_()
+        SCREEN.blit(enemy, (enemy_x, enemy_y))
 
         # Enemy movement, selects a random number and depending on the range that the number
         # goes into, for a range of 10 (not too sure how it works, but it does)
         # then it increases / decreases the x or y axis by the enemy's velocity
+        """
         rand_num = random.randint(1,20)
         if 1 <= rand_num <= 5:
             for i in range(5):
@@ -141,7 +210,9 @@ def main():
             for i in range(5):
                 enemy_y += enemy_vel
                 enemy_x += enemy_vel
-
+        """
+        
+       
         # Stores the keys pressed
         keys = pygame.key.get_pressed()
 
@@ -149,19 +220,19 @@ def main():
         # !!! The "and" sections were taken from GeeksForGeeks, see the write-up
 
         # if a (left) key is pressed 
-        if keys[pygame.K_a] and player_x> 0: 
+        if keys[pygame.K_a]: #and player_x> 0: 
             # decrement in x co-ordinate 
             player_x -= player_vel
         # if d (right) key is pressed 
-        if keys[pygame.K_d] and player_x < WIDTH - 64: 
+        if keys[pygame.K_d]: #and player_x < WIDTH - 64: 
             # increment in x co-ordinate 
             player_x += player_vel
         # if w (up) key is pressed    
-        if keys[pygame.K_w] and player_y> 0: 
+        if keys[pygame.K_w]: #and player_y> 0: 
             # decrement in y co-ordinate 
             player_y -= player_vel
         # if s (down) key is pressed    
-        if keys[pygame.K_s] and player_y < HEIGHT - 64: 
+        if keys[pygame.K_s]: #and player_y < HEIGHT - 64: 
             # increment in y co-ordinate 
             player_y += player_vel
 
