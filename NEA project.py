@@ -1,4 +1,14 @@
 # Example file showing a basic pygame "game loop"
+
+# Will I be able to put this into a playable state by the time this has to be presented October - November - December time?
+# Yes
+# Will my mental health be stable?
+# Absolutely not
+
+# Im planning on doing more stuff when college has actually started, but for now it's barely "eh"..
+# Upon saying that, when the file is executed, all images stay at the top and don't refresh
+# May God save us all
+
 """
 This template was taken from my computer science teacher
 Some code will most likely be taken from the "game py" file
