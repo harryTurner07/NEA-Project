@@ -110,8 +110,10 @@ def main():
         # Loads the player and enemy
         player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
         #enemy = Enemy((enemy_x + random.randint(10, 100)), (enemy_y + random.randint(10,100)), enemy_vel, (pygame.image.load("Test-Enemy.png")))
-        enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
+        #enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
         enemy = pygame.image.load("Test-Enemy.png")
+        # play around with enemy.surface <- look on pygame
+
 
         """
         while len(enemy_amount) != 5:
