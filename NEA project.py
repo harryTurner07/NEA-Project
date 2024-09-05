@@ -114,14 +114,14 @@ def main():
         enemy = pygame.image.load("Test-Enemy.png")
         # play around with enemy.surface <- look on pygame
 
-
+        
         """
         while len(enemy_amount) != 5:
             enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
             enemy = pygame.image.load("Test-Enemy.png")
             enemy_amount.append(enemy)
         """
-        
+        """
         # If and while the enemy_x value is lower than the player_x value, increase it
         if enemy_x < player_x2:
             while enemy_x < player_x2:
@@ -142,7 +142,7 @@ def main():
             while enemy_y > player_y2:
                 enemy_y -= enemy_vel
                 SCREEN.blit(enemy, (enemy_x, enemy_y))
-        
+        """
 
         # Should hopefully always update the position of the mouse
         mouse_pos = pygame.mouse.get_pos()
