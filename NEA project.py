@@ -76,7 +76,7 @@ def main():
             self.enemy_velo = enemy_vel
             self.image = image
         def _enemyblit_(self):
-            SCREEN.blit(self.image, (enemy_x, enemy_y))
+            SCREEN.blit(self.image, (self.enemy_x_pos, self.enemy_y_pos))
         # Code to make the enemy move towards the player - From StackOverflow
         def move_towards_player(self, Player):
             # Find direction vector (dx, dy) between enemy and player
@@ -88,6 +88,7 @@ def main():
             # Move along this normalised vector towards the player at current speed
             self.enemy_x_pos += dx * self.enemy_velo
             self.enemy_y_pos += dy * self.enemy_velo
+            print("AAAAAAAAAAAAAAAAAA")
 
 
     def enemy_xory_value_moving(enemy_x, enemy_y, player_x, player_y, enemy_vel):
@@ -127,6 +128,7 @@ def main():
         enemy = Enemy(enemy_x, enemy_y, enemy_vel, (pygame.image.load("Test-Enemy.png")))
         # play around with enemy.surface <- look on pygame
         enemy.move_towards_player(player)
+        enemy._enemyblit_()
         
         # Another attempt to spawn in multiple enemies
         
@@ -220,7 +222,7 @@ def main():
 
         # Updates the positions of the player and enemy(s)
         player._playerblit_()
-        SCREEN.blit(enemy, (enemy_x, enemy_y))
+        #SCREEN.blit(enemy, (enemy_x, enemy_y))
 
         # Enemy movement, selects a random number and depending on the range that the number
         # goes into, for a range of 10 (not too sure how it works, but it does)
