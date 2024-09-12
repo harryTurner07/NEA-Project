@@ -41,9 +41,9 @@ def main():
     angle = 1
 
     # Enemy 1 (shooter) things
-    enemy_x = random.randint(0, WIDTH)
-    enemy_y = random.randint(0, HEIGHT)
-    enemy_vel = 3
+    enemy_x = 500
+    enemy_y = 500
+    enemy_vel = 5
     start_time = 0
     enemy_amount = []
 
@@ -88,7 +88,30 @@ def main():
             # Move along this normalised vector towards the player at current speed
             self.enemy_x_pos += dx * self.enemy_velo
             self.enemy_y_pos += dy * self.enemy_velo
-            print("AAAAAAAAAAAAAAAAAA")
+            self._enemyblit_()
+        def move_towards_player2(self, Player):
+            # Find direction vector between enemy and player
+            dirvect = pygame.math.Vector2(Player.player_x_pos - self.enemy_x_pos, Player.player_y_pos - self.enemy_y_pos)
+            dirvect.normalize()
+            dirvect.scale_to_length(self.enemy_velo)
+            self._enemyblit_()
+        def move_towards_player3(self, Player):
+            target_vector = pygame.Vector2(Player.player_x_pos, Player.player_y_pos)
+            follower_vector = pygame.Vector2(self.enemy_x_pos, self.enemy_y_pos)
+            distance = follower_vector.distance_to(target_vector)
+            direction_vector = target_vector - follower_vector
+            step_distance = 5
+            if distance > 0:
+                direction_vector /= distance
+                new_follower_vector = follower_vector + direction_vector * step_distance
+            minimum_distance = 0
+            maximum_distance = 1000
+            min_step = max(0, distance - maximum_distance)
+            max_step = distance - minimum_distance
+            step_distance = min(max_step, max(min_step, self.enemy_velo))
+            LERP_FACTOR = 0.05
+            step_distance = min_step + (max_step - min_step) * LERP_FACTOR
+            
 
 
     def enemy_xory_value_moving(enemy_x, enemy_y, player_x, player_y, enemy_vel):
@@ -125,9 +148,9 @@ def main():
         #enemy = Enemy((enemy_x + random.randint(10, 100)), (enemy_y + random.randint(10,100)), enemy_vel, (pygame.image.load("Test-Enemy.png")))
         #enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
         #enemy = pygame.image.load("Test-Enemy.png")
-        enemy = Enemy(enemy_x, enemy_y, enemy_vel, (pygame.image.load("Test-Enemy.png")))
+        enemy = Enemy(enemy_x, enemy_y, enemy_vel, pygame.image.load("Test-Enemy.png"))
         # play around with enemy.surface <- look on pygame
-        enemy.move_towards_player(player)
+        enemy.move_towards_player3(player)
         enemy._enemyblit_()
         
         # Another attempt to spawn in multiple enemies
