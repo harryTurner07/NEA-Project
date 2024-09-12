@@ -1,0 +1,22 @@
+def move_towards_player2(self, Player):
+            # Find direction vector between enemy and player
+            dirvect = pygame.math.Vector2(Player.player_x_pos - self.enemy_x_pos, Player.player_y_pos - self.enemy_y_pos)
+            dirvect.normalize()
+            dirvect.scale_to_length(self.enemy_velo)
+            self._enemyblit_()
+        def move_towards_player3(self, Player):
+            target_vector = pygame.Vector2(Player.player_x_pos, Player.player_y_pos)
+            follower_vector = pygame.Vector2(self.enemy_x_pos, self.enemy_y_pos)
+            distance = follower_vector.distance_to(target_vector)
+            direction_vector = target_vector - follower_vector
+            step_distance = 5
+            if distance > 0:
+                direction_vector /= distance
+                new_follower_vector = follower_vector + direction_vector * step_distance
+            minimum_distance = 0
+            maximum_distance = 1000
+            min_step = max(0, distance - maximum_distance)
+            max_step = distance - minimum_distance
+            step_distance = min(max_step, max(min_step, self.enemy_velo))
+            LERP_FACTOR = 0.05
+            step_distance = min_step + (max_step - min_step) * LERP_FACTOR
