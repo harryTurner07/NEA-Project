@@ -17,6 +17,7 @@ or will say when it appears
 """
 import pygame
 import random
+import math
 
 # pygame setup
 def main():
@@ -76,6 +77,17 @@ def main():
             self.image = image
         def _enemyblit_(self):
             SCREEN.blit(self.image, (enemy_x, enemy_y))
+        # Code to make the enemy move towards the player - From StackOverflow
+        def move_towards_player(self, Player):
+            # Find direction vector (dx, dy) between enemy and player
+            dx, dy = Player.player_x_pos - self.enemy_x_pos, Player.player_y_pos - self.enemy_y_pos
+            # Returns the hypotenuse; the long side, so it's a direct line to the player
+            # Not entirely what I want to do, but if it works, then I'll keep it that way unless otherwise
+            dist = math.hypot(dx, dy)
+            dx, dy = dx / dist, dy / dist # Normalise
+            # Move along this normalised vector towards the player at current speed
+            self.enemy_x_pos += dx * self.enemy_velo
+            self.enemy_y_pos += dy * self.enemy_velo
 
 
     def enemy_xory_value_moving(enemy_x, enemy_y, player_x, player_y, enemy_vel):
@@ -111,16 +123,25 @@ def main():
         player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
         #enemy = Enemy((enemy_x + random.randint(10, 100)), (enemy_y + random.randint(10,100)), enemy_vel, (pygame.image.load("Test-Enemy.png")))
         #enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
-        enemy = pygame.image.load("Test-Enemy.png")
+        #enemy = pygame.image.load("Test-Enemy.png")
+        enemy = Enemy(enemy_x, enemy_y, enemy_vel, (pygame.image.load("Test-Enemy.png")))
         # play around with enemy.surface <- look on pygame
-
+        enemy.move_towards_player(player)
         
+        # Another attempt to spawn in multiple enemies
+        
+
+
+        # Supposed to spawn in multiple enemies
         """
         while len(enemy_amount) != 5:
             enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
             enemy = pygame.image.load("Test-Enemy.png")
             enemy_amount.append(enemy)
         """
+
+        # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
+
         """
         # If and while the enemy_x value is lower than the player_x value, increase it
         if enemy_x < player_x2:
