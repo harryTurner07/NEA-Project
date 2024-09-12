@@ -45,7 +45,13 @@ def main():
     enemy_y = 500
     enemy_vel = 5
     start_time = 0
-    enemy_amount = []
+    enemy_dict = {
+        "first" : enemy,
+        "second" : "blank",
+        "third"
+        "fourth"
+        "fifth"
+    }
 
     # Midpoint stuff
     total_x = player_x + enemy_y
@@ -78,6 +84,7 @@ def main():
         def _enemyblit_(self):
             SCREEN.blit(self.image, (self.enemy_x_pos, self.enemy_y_pos))
         # Code to make the enemy move towards the player - From StackOverflow
+        # As such I DO NOT claim credit for this function
         def move_towards_player(self, Player):
             # Find direction vector (dx, dy) between enemy and player
             dx, dy = Player.player_x_pos - self.enemy_x_pos, Player.player_y_pos - self.enemy_y_pos
@@ -86,34 +93,9 @@ def main():
             dist = math.hypot(dx, dy)
             dx, dy = dx / dist, dy / dist # Normalise
             # Move along this normalised vector towards the player at current speed
-            self.enemy_x_pos += dx * self.enemy_velo
-            self.enemy_y_pos += dy * self.enemy_velo
+            self.enemy_x_pos += dx * 5
+            self.enemy_y_pos += dy * 5
             self._enemyblit_()
-        def move_towards_player2(self, Player):
-            # Find direction vector between enemy and player
-            dirvect = pygame.math.Vector2(Player.player_x_pos - self.enemy_x_pos, Player.player_y_pos - self.enemy_y_pos)
-            dirvect.normalize()
-            dirvect.scale_to_length(self.enemy_velo)
-            self._enemyblit_()
-        def move_towards_player3(self, Player):
-            target_vector = pygame.Vector2(Player.player_x_pos, Player.player_y_pos)
-            follower_vector = pygame.Vector2(self.enemy_x_pos, self.enemy_y_pos)
-            distance = follower_vector.distance_to(target_vector)
-            direction_vector = target_vector - follower_vector
-            step_distance = 5
-            if distance > 0:
-                direction_vector /= distance
-                new_follower_vector = follower_vector + direction_vector * step_distance
-            minimum_distance = 0
-            maximum_distance = 1000
-            min_step = max(0, distance - maximum_distance)
-            max_step = distance - minimum_distance
-            step_distance = min(max_step, max(min_step, self.enemy_velo))
-            LERP_FACTOR = 0.05
-            step_distance = min_step + (max_step - min_step) * LERP_FACTOR
-            
-
-
     def enemy_xory_value_moving(enemy_x, enemy_y, player_x, player_y, enemy_vel):
         if enemy_x < player_x:
             while enemy_x < (player_x + random.randint(10,100)):
@@ -140,21 +122,20 @@ def main():
         SCREEN.blit(background_img, (0,0))
 
         """ RENDER YOUR GAME HERE """
-        #player = pygame.draw.circle(SCREEN,center=(player_x,player_y),color=(255,255,255),radius=(player_radius))
-        # Old code for rendering the player as a drawn object
-        #player = pygame.image.load("Test-Image.png")
+        # Old code was to spawn in a circle then layer the image on top / override with the image
+
         # Loads the player and enemy
         player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
-        #enemy = Enemy((enemy_x + random.randint(10, 100)), (enemy_y + random.randint(10,100)), enemy_vel, (pygame.image.load("Test-Enemy.png")))
-        #enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
-        #enemy = pygame.image.load("Test-Enemy.png")
         enemy = Enemy(enemy_x, enemy_y, enemy_vel, pygame.image.load("Test-Enemy.png"))
         # play around with enemy.surface <- look on pygame
-        enemy.move_towards_player3(player)
         enemy._enemyblit_()
-        
+
         # Another attempt to spawn in multiple enemies
-        
+        int_range = 100
+        enemy2 = Enemy((enemy_x - int_range), (enemy_y - int_range), enemy_vel, (pygame.image.load("Test-Enemy.png")))
+        enemy2._enemyblit_()
+
+
 
 
         # Supposed to spawn in multiple enemies
@@ -189,9 +170,6 @@ def main():
                 enemy_y -= enemy_vel
                 SCREEN.blit(enemy, (enemy_x, enemy_y))
         """
-
-        # Should hopefully always update the position of the mouse
-        mouse_pos = pygame.mouse.get_pos()
 
         """
         # Borders but for the enemy class(s)
@@ -235,14 +213,6 @@ def main():
             player_y = 0
 
 
-        # Scaling the image to the desired size (should already be at 64x64, this is just in case)
-        #player = pygame.transform.scale(player, DEFAULT_PLAYER_SIZE)
-        # ROTATION
-        #player = pygame.transform.rotate(player, angle=(angle))
-        #angle += 1
-        # Updating
-        #SCREEN.blit(player, (player_x, player_y))
-
         # Updates the positions of the player and enemy(s)
         player._playerblit_()
         #SCREEN.blit(enemy, (enemy_x, enemy_y))
@@ -270,7 +240,11 @@ def main():
                 enemy_x += enemy_vel
         """
         
-       
+
+        # Should hopefully always update the position of the mouse
+        mouse_pos = pygame.mouse.get_pos()
+
+
         # Stores the keys pressed
         keys = pygame.key.get_pressed()
 
