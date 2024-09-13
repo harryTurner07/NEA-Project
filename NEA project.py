@@ -63,6 +63,11 @@ def main():
     player_x2 = player_x - 100
     player_y2 = player_y - 100
 
+    # Mouse config stuff
+    # Should hopefully always update the position of the mouse
+    mouse_pos = pygame.mouse.get_pos()
+
+
     # Test for making player as a class...
     # IT WORKS !!!!! <---- This will backfire in a few attempts
     class Player:
@@ -97,6 +102,11 @@ def main():
             self.enemy_x_pos += dx * 5
             self.enemy_y_pos += dy * 5
             self._enemyblit_()
+        def removal_clicked(self, event_list):
+            for event in event_list:
+                if event.type == pygame.MOUSEBUTTONDOWN and mouse_pos == range(self.enemy_x_pos, self.enemy_y_pos):
+                    print("yeoch")
+
     def enemy_xory_value_moving(enemy_x, enemy_y, player_x, player_y, enemy_vel):
         if enemy_x < player_x:
             while enemy_x < (player_x + random.randint(10,100)):
@@ -133,6 +143,9 @@ def main():
                 running = False
             if event.type == pygame.KEYDOWN:
                 start_time = pygame.time.get_ticks()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print(pygame.mouse.get_pos())
+                enemy.removal_clicked(pygame.event.get())
 
         # fill the screen with a color to wipe away anything from last frame
         #SCREEN.fill("orange")
@@ -240,10 +253,6 @@ def main():
                 enemy_y += enemy_vel
                 enemy_x += enemy_vel
         """
-        
-
-        # Should hopefully always update the position of the mouse
-        mouse_pos = pygame.mouse.get_pos()
 
 
         # Stores the keys pressed
