@@ -104,6 +104,7 @@ def main():
             self._enemyblit_()
         def removal_clicked(self, event_list):
             for event in event_list:
+                # If the mouse is clicked and it's on an enemy, remove the enemy - at the moment it's just a print statement just to see if it works :D
                 if event.type == pygame.MOUSEBUTTONDOWN and mouse_pos == range(self.enemy_x_pos, self.enemy_y_pos):
                     print("yeoch")
 
