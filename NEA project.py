@@ -9,6 +9,9 @@
 # Upon saying that, when the file is executed, all images stay at the top and don't refresh
 # May God save us all
 
+
+# HI
+
 """
 This template was taken from my computer science teacher
 Some code will most likely be taken from the "game py" file
