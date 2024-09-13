@@ -122,7 +122,6 @@ def main():
     # play around with enemy.surface <- look on pygame
 
 
-
     """
         While running things
     """
@@ -142,18 +141,12 @@ def main():
 
         """ RENDER YOUR GAME HERE """
         # Old code was to spawn in a circle then layer the image on top / override with the image
+
+        # This was part of a post from stackoverflow where it draws every enemy in enemycontainment.
         for enemy in enemycontainment:
             enemy._enemyblit_()
 
     
-        # Supposed to spawn in multiple enemies
-        """
-        while len(enemy_amount) != 5:
-            enemy = pygame.draw.circle(SCREEN, center=(enemy_x, enemy_y), color=(255,255,255), radius=0)
-            enemy = pygame.image.load("Test-Enemy.png")
-            enemy_amount.append(enemy)
-        """
-
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
 
         """
