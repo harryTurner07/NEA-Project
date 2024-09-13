@@ -10,8 +10,6 @@
 # May God save us all
 
 
-# HI
-
 """
 This template was taken from my computer science teacher
 Some code will most likely be taken from the "game py" file
@@ -44,16 +42,16 @@ def main():
     angle = 1
 
     # Enemy 1 (shooter) things
-    enemy_x = 500
-    enemy_y = 500
+    enemy_x = random.randint(1, WIDTH)
+    enemy_y = random.randint(1, HEIGHT)
     enemy_vel = 5
     start_time = 0
     enemy_dict = {
-        "first" : enemy,
+        "first" : "enemy",
         "second" : "blank",
-        "third"
-        "fourth"
-        "fifth"
+        "third" : "blank",
+        "fourth" : "blank",
+        "fifth" : "blank",
     }
 
     # Midpoint stuff
@@ -79,18 +77,18 @@ def main():
     # Hopefully an enemy class
     # Currently unused
     class Enemy:
-        def __init__(self, enemy_x, enemy_y, enemy_vel, image):
-            self.enemy_x_pos = enemy_x
-            self.enemy_y_pos = enemy_y
+        def __init__(self):
+            self.enemy_x_pos = random.randint(1, WIDTH)
+            self.enemy_y_pos = random.randint(1, HEIGHT)
             self.enemy_velo = enemy_vel
-            self.image = image
+            self.image = pygame.image.load("Test-Enemy.png")
         def _enemyblit_(self):
             SCREEN.blit(self.image, (self.enemy_x_pos, self.enemy_y_pos))
         # Code to make the enemy move towards the player - From StackOverflow
         # As such I DO NOT claim credit for this function
-        def move_towards_player(self, Player):
+        def move_towards_player(self, player_x, player_y):
             # Find direction vector (dx, dy) between enemy and player
-            dx, dy = Player.player_x_pos - self.enemy_x_pos, Player.player_y_pos - self.enemy_y_pos
+            dx, dy = player_x - self.enemy_x_pos, player_y - self.enemy_y_pos
             # Returns the hypotenuse; the long side, so it's a direct line to the player
             # Not entirely what I want to do, but if it works, then I'll keep it that way unless otherwise
             dist = math.hypot(dx, dy)
@@ -106,6 +104,24 @@ def main():
         elif enemy_y < enemy_y:
             while enemy_y < (player_y + random.randint(10,100)):
                 enemy_y += enemy_vel
+
+
+
+    # Loads the player and the enemy
+    player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
+
+    # Putting a max of 5 enemies into a list
+    enemy = Enemy()
+    enemy2 = Enemy()
+    enemy3 = Enemy()
+    enemy4 = Enemy()
+    enemy5 = Enemy()
+
+    # Adding to list
+    enemycontainment = [enemy, enemy2, enemy3, enemy4, enemy5]
+    # play around with enemy.surface <- look on pygame
+
+
 
     """
         While running things
@@ -126,21 +142,10 @@ def main():
 
         """ RENDER YOUR GAME HERE """
         # Old code was to spawn in a circle then layer the image on top / override with the image
+        for enemy in enemycontainment:
+            enemy._enemyblit_()
 
-        # Loads the player and enemy
-        player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
-        enemy = Enemy(enemy_x, enemy_y, enemy_vel, pygame.image.load("Test-Enemy.png"))
-        # play around with enemy.surface <- look on pygame
-        enemy._enemyblit_()
-
-        # Another attempt to spawn in multiple enemies
-        int_range = 100
-        enemy2 = Enemy((enemy_x - int_range), (enemy_y - int_range), enemy_vel, (pygame.image.load("Test-Enemy.png")))
-        enemy2._enemyblit_()
-
-
-
-
+    
         # Supposed to spawn in multiple enemies
         """
         while len(enemy_amount) != 5:
@@ -218,7 +223,7 @@ def main():
 
         # Updates the positions of the player and enemy(s)
         player._playerblit_()
-        #SCREEN.blit(enemy, (enemy_x, enemy_y))
+        enemy._enemyblit_()
 
         # Enemy movement, selects a random number and depending on the range that the number
         # goes into, for a range of 10 (not too sure how it works, but it does)
