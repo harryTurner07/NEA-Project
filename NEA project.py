@@ -108,6 +108,20 @@ def main():
                 if event.type == pygame.MOUSEBUTTONDOWN and mouse_pos == range(self.enemy_x_pos, self.enemy_y_pos):
                     print("yeoch")
 
+
+    # Bullet class
+    class Bullet:
+        def __init__(self, colour, x, y, width, height, speed, targetx, targety):
+            self.rect = pygame.Rect(x,y,width,height)
+            self.colour = colour
+            self.speed = speed
+            self.dx = targetx
+            self.dy = targety
+        def _bulletblit_(self, SCREEN):
+            SCREEN.blit(SCREEN, (self.dx, self.dy))
+
+    bulletlist = []
+
     def enemy_xory_value_moving(enemy_x, enemy_y, player_x, player_y, enemy_vel):
         if enemy_x < player_x:
             while enemy_x < (player_x + random.randint(10,100)):
@@ -119,6 +133,9 @@ def main():
 
 
     # Loads the player and the enemy
+    plimage = pygame.image.load("Test-Image.png")
+    plimage.convert()
+    rect = plimage.get_rect()
     player = Player(player_x, player_y, player_vel, (pygame.image.load("Test-Image.png")))
 
     # Putting a max of 5 enemies into a list
@@ -145,8 +162,8 @@ def main():
             if event.type == pygame.KEYDOWN:
                 start_time = pygame.time.get_ticks()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print(pygame.mouse.get_pos())
-                enemy.removal_clicked(pygame.event.get())
+                mx, my = pygame.mouse.get_pos()
+                print(mx,my)
 
         # fill the screen with a color to wipe away anything from last frame
         #SCREEN.fill("orange")
@@ -160,7 +177,12 @@ def main():
         for enemy in enemycontainment:
             enemy._enemyblit_()
 
-    
+
+        for b in bulletlist:
+            b = Bullet((255,255,255),player_x, player_y,5,5,10,mx,my)
+            b._bulletblit_()
+
+
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
 
         """
