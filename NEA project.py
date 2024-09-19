@@ -22,7 +22,9 @@ import math
 
 # pygame setup
 def main():
+    # Initialising things
     pygame.init()
+    pygame.font.init()
     pygame.display.set_caption("NEA Project")
     WIDTH = 1280
     HEIGHT = 720
@@ -31,6 +33,11 @@ def main():
     CLOCK = pygame.time.Clock()
     running = True
     background_img = pygame.image.load("space-background.png")
+
+
+    # Font things
+    used_font = pygame.font.SysFont('Helvetica', 30)
+    text_surface = used_font.render('Testing text', False, 'Red', 'Black')
 
     # Player things
     DEFAULT_PLAYER_SIZE = (64,64)
@@ -169,6 +176,7 @@ def main():
         #SCREEN.fill("orange")
         # set the background from the position 0,0
         SCREEN.blit(background_img, (0,0))
+        SCREEN.blit(text_surface, (0,0))
 
         """ RENDER YOUR GAME HERE """
         # Old code was to spawn in a circle then layer the image on top / override with the image
