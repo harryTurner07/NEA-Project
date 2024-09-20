@@ -137,7 +137,17 @@ def main():
             while enemy_y < (player_y + random.randint(10,100)):
                 enemy_y += enemy_vel
 
-
+    def draw_bullet(mx, my, SCREEN):
+        colour = (255,255,255)
+        bx = 10
+        by = 10
+        width = 20
+        height = 20
+        speed = 5
+        targetx = mx
+        targety = my
+        bullet = Bullet(colour, bx, by, width, height, speed, targetx, targety)
+        bullet._bulletblit_(SCREEN)
 
     # Loads the player and the enemy
     plimage = pygame.image.load("Test-Image.png")
@@ -171,6 +181,10 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
                 print(mx,my)
+            if event.type == pygame.MOUSEBUTTONUP:
+                draw_bullet(mx,my,SCREEN)
+                print("I think Im slowly becoming brain dead, I cannot think to save my life; dear god in heaven")
+                print(mx, my)
 
         # fill the screen with a color to wipe away anything from last frame
         #SCREEN.fill("orange")
