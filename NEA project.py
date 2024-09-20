@@ -83,28 +83,6 @@ def main():
             self.player_y_pos = player_y
             self.player_velo = player_vel
             self.image = image
-        # Moving movenment up here
-        def movement(self):
-        # Stores the keys pressed
-            keys = pygame.key.get_pressed()
-        # This was taken from game.py - Don't think the code was taken from anywhere
-        # !!! The "and" sections were taken from GeeksForGeeks, see the write-up
-        # if a (left) key is pressed 
-            if keys[pygame.K_a]: #and player_x> 0: 
-            # decrement in x co-ordinate 
-                self.player_x_pos -= self.player_velo
-        # if d (right) key is pressed 
-            if keys[pygame.K_d]: #and player_x < WIDTH - 64: 
-            # increment in x co-ordinate 
-                self.player_x_pos += self.player_velo
-        # if w (up) key is pressed    
-            if keys[pygame.K_w]: #and player_y> 0: 
-            # decrement in y co-ordinate 
-                self.player_y_pos -= self.player_velo
-        # if s (down) key is pressed    
-            if keys[pygame.K_s]: #and player_y < HEIGHT - 64: 
-            # increment in y co-ordinate 
-                self.player_y_pos += self.player_velo
         def _playerblit_(self):
             SCREEN.blit(self.image, (player_x, player_y))
 
@@ -281,13 +259,31 @@ def main():
 
 
         # Doing the key things
+        # Stores the keys pressed
+        keys = pygame.key.get_pressed()
+        # This was taken from game.py - Don't think the code was taken from anywhere
+        # !!! The "and" sections were taken from GeeksForGeeks, see the write-up
+        # if a (left) key is pressed 
+        if keys[pygame.K_a]: #and player_x> 0: 
+            # decrement in x co-ordinate 
+            player_x -= player_vel
+        # if d (right) key is pressed 
+        if keys[pygame.K_d]: #and player_x < WIDTH - 64: 
+            # increment in x co-ordinate 
+            player_x += player_vel
+        # if w (up) key is pressed    
+        if keys[pygame.K_w]: #and player_y> 0: 
+            # decrement in y co-ordinate 
+            player_y -= player_vel
+        # if s (down) key is pressed    
+        if keys[pygame.K_s]: #and player_y < HEIGHT - 64: 
+            # increment in y co-ordinate 
+            player_y += player_vel
         # Quit Key  
         q_key = pygame.key.get_pressed()
         if q_key[pygame.K_q]:
             running = False
-        player.movement()
-
-
+        #player.movement()
 
         # Updates the positions of the player and enemy(s)
         player._playerblit_()
