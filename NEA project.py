@@ -149,6 +149,11 @@ def main():
         bullet = Bullet(colour, bx, by, width, height, speed, targetx, targety)
         bullet._bulletblit_(SCREEN)
 
+    def spawn_bullet():
+        global bulletlist
+        bulletlist.append(pygame.mouse.get_pos)
+
+
     # Loads the player and the enemy
     plimage = pygame.image.load("Test-Image.png")
     plimage.convert()
@@ -166,6 +171,7 @@ def main():
     enemycontainment = [enemy, enemy2, enemy3, enemy4, enemy5]
     # play around with enemy.surface <- look on pygame
 
+    bullet = pygame.image.load("Test-Bullet.png")
 
     """
         While running things
@@ -184,8 +190,10 @@ def main():
             if event.type == pygame.MOUSEBUTTONUP:
                 draw_bullet(mx,my,SCREEN)
                 print("I think Im slowly becoming brain dead, I cannot think to save my life; dear god in heaven")
-                print(mx, my)
 
+
+        mx, my = pygame.mouse.get_pos()
+        print(mx,my)
         # fill the screen with a color to wipe away anything from last frame
         #SCREEN.fill("orange")
         # set the background from the position 0,0
@@ -199,11 +207,8 @@ def main():
         for enemy in enemycontainment:
             enemy._enemyblit_()
 
-
-        for b in bulletlist:
-            b = Bullet((255,255,255),player_x, player_y,5,5,10,mx,my)
-            b._bulletblit_()
-
+        for bullet in bullet:
+            SCREEN.blit()
 
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
 
