@@ -185,15 +185,14 @@ def main():
             if event.type == pygame.KEYDOWN:
                 start_time = pygame.time.get_ticks()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                mx, my = pygame.mouse.get_pos()
-                print(mx,my)
+                print("A")
             if event.type == pygame.MOUSEBUTTONUP:
                 draw_bullet(mx,my,SCREEN)
                 print("I think Im slowly becoming brain dead, I cannot think to save my life; dear god in heaven")
 
 
-        mx, my = pygame.mouse.get_pos()
-        print(mx,my)
+        #mx, my = pygame.mouse.get_pos()
+        #print(mx,my)
         # fill the screen with a color to wipe away anything from last frame
         #SCREEN.fill("orange")
         # set the background from the position 0,0
@@ -207,7 +206,7 @@ def main():
         for enemy in enemycontainment:
             enemy._enemyblit_()
 
-        for bullet in bulletlist:
+        for bullet_pos in bulletlist:
             SCREEN.blit()
 
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
