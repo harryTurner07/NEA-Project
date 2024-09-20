@@ -207,7 +207,7 @@ def main():
         for enemy in enemycontainment:
             enemy._enemyblit_()
 
-        for bullet in bullet:
+        for bullet in bulletlist:
             SCREEN.blit()
 
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
