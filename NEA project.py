@@ -33,6 +33,7 @@ def main():
     CLOCK = pygame.time.Clock()
     running = True
     background_img = pygame.image.load("space-background.png")
+    spawner = False
 
 
     # Font things
@@ -137,6 +138,7 @@ def main():
             while enemy_y < (player_y + random.randint(10,100)):
                 enemy_y += enemy_vel
 
+    # Supposed to draw a bullet but ended up using something else
     def draw_bullet(mx, my, SCREEN):
         colour = (255,255,255)
         bx = 10
@@ -148,11 +150,6 @@ def main():
         targety = my
         bullet = Bullet(colour, bx, by, width, height, speed, targetx, targety)
         bullet._bulletblit_(SCREEN)
-
-    def spawn_bullet():
-        global bulletlist
-        bulletlist.append(pygame.mouse.get_pos)
-
 
     # Loads the player and the enemy
     plimage = pygame.image.load("Test-Image.png")
@@ -171,6 +168,7 @@ def main():
     enemycontainment = [enemy, enemy2, enemy3, enemy4, enemy5]
     # play around with enemy.surface <- look on pygame
 
+    # Draws a bullet ready to be called
     bullet = pygame.image.load("Test-Bullet.png")
 
     """
@@ -185,14 +183,11 @@ def main():
             if event.type == pygame.KEYDOWN:
                 start_time = pygame.time.get_ticks()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print("A")
-            if event.type == pygame.MOUSEBUTTONUP:
-                draw_bullet(mx,my,SCREEN)
-                print("I think Im slowly becoming brain dead, I cannot think to save my life; dear god in heaven")
+                bulletlist.append(event.pos)
+                # Adds position to a list
+        
 
 
-        #mx, my = pygame.mouse.get_pos()
-        #print(mx,my)
         # fill the screen with a color to wipe away anything from last frame
         #SCREEN.fill("orange")
         # set the background from the position 0,0
@@ -205,9 +200,10 @@ def main():
         # This was part of a post from stackoverflow where it draws every enemy in enemycontainment.
         for enemy in enemycontainment:
             enemy._enemyblit_()
-
-        for bullet_pos in bulletlist:
-            SCREEN.blit()
+        
+        # eveytime there's a new position in the list, spawn a bullet
+        for pos in bulletlist:
+            SCREEN.blit(bullet,pos)
 
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
 
