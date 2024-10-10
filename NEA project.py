@@ -38,7 +38,7 @@ def main():
 
     # Font things
     used_font = pygame.font.SysFont('Helvetica', 30)
-    text_surface = used_font.render('Mouse testing - Trying to get things to spawn when mouse is clicked', False, 'Red', 'Black')
+    text_surface = used_font.render('Get Collision working; like player and enemies hitting each other', False, 'Red', 'Black')
 
     # Player things
     DEFAULT_PLAYER_SIZE = (64,64)
