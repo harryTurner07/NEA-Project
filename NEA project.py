@@ -83,6 +83,7 @@ def main():
             self.player_x_pos = player_x
             self.player_y_pos = player_y
             self.player_velo = player_vel
+            self.playcollision = pygame.draw.rect(SCREEN,"white", pygame.Rect(self.player_x_pos, self.player_y_pos, 64, 64))
             self.image = image
         def _playerblit_(self):
             SCREEN.blit(self.image, (player_x, player_y))
