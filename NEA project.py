@@ -46,13 +46,13 @@ def main():
     player_x = 100
     player_y = 100
     DEFAULT_PLAYER_POS = (player_x,player_y)
-    player_vel = 5
+    player_vel = 10
     angle = 1
 
     # Enemy 1 (shooter) things
     enemy_x = random.randint(1, WIDTH)
     enemy_y = random.randint(1, HEIGHT)
-    enemy_vel = 5
+    enemy_vel = 3
     start_time = 0
     enemy_dict = {
         "first" : "enemy",
@@ -94,6 +94,7 @@ def main():
             self.enemy_x_pos = random.randint(1, WIDTH)
             self.enemy_y_pos = random.randint(1, HEIGHT)
             self.enemy_velo = enemy_vel
+            self.collision = pygame.draw.rect(SCREEN,"white", pygame.Rect(self.enemy_x_pos, self.enemy_y_pos, 64, 64))
             self.image = pygame.image.load("Test-Enemy.png")
         def _enemyblit_(self):
             SCREEN.blit(self.image, (self.enemy_x_pos, self.enemy_y_pos))
@@ -171,6 +172,8 @@ def main():
     # Draws a bullet ready to be called
     bullet = pygame.image.load("Test-Bullet.png")
 
+    test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (enemy_x, enemy_y))
+
     """
         While running things
     """
@@ -200,10 +203,12 @@ def main():
         # This was part of a post from stackoverflow where it draws every enemy in enemycontainment.
         for enemy in enemycontainment:
             enemy._enemyblit_()
+            enemy.move_towards_player(player_x, player_y)
         
         # eveytime there's a new position in the list, spawn a bullet
         for pos in bulletlist:
-            SCREEN.blit(bullet,pos)
+            mousex, mousey = pygame.mouse.get_pos()
+            test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (mousex, mousey))
 
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
 
