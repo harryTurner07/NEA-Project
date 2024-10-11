@@ -179,6 +179,7 @@ def main():
     playerscollision = player.rect
     enemycollision = enemy.rect
     collisionlist = [playerscollision, enemycollision]
+    collide = pygame.Rect.colliderect(player.rect, enemy.rect)
 
     """
         While running things
@@ -218,9 +219,9 @@ def main():
 
 
         # Collision
-        if player.rect.colliderect(enemy.rect):
+        if collide:
             print("HALLO!")
-            text2surface = used_font.render('COLLISION', False, 'Green', 'Peach')
+            text2surface = used_font.render('COLLISION', False, 'Green', 'Black')
             SCREEN.blit(text2surface, (500,500))
 
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
