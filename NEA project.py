@@ -83,7 +83,7 @@ def main():
             self.player_x_pos = player_x
             self.player_y_pos = player_y
             self.player_velo = player_vel
-            self.playcollision = pygame.draw.rect(SCREEN,"white", pygame.Rect(self.player_x_pos, self.player_y_pos, 64, 64))
+            self.rect = pygame.draw.rect(SCREEN,"white", pygame.Rect(self.player_x_pos, self.player_y_pos, 64, 64))
             self.image = image
         def _playerblit_(self):
             SCREEN.blit(self.image, (player_x, player_y))
@@ -95,7 +95,7 @@ def main():
             self.enemy_x_pos = random.randint(1, WIDTH)
             self.enemy_y_pos = random.randint(1, HEIGHT)
             self.enemy_velo = enemy_vel
-            self.collision = pygame.draw.rect(SCREEN,"white", pygame.Rect(self.enemy_x_pos, self.enemy_y_pos, 64, 64))
+            self.rect = pygame.draw.rect(SCREEN,"white", pygame.Rect(self.enemy_x_pos, self.enemy_y_pos, 64, 64))
             self.image = pygame.image.load("Test-Enemy.png")
         def _enemyblit_(self):
             SCREEN.blit(self.image, (self.enemy_x_pos, self.enemy_y_pos))
@@ -175,6 +175,11 @@ def main():
 
     test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (enemy_x, enemy_y))
 
+    # Gets the rect of the player and enemy(s)
+    playerscollision = player.rect
+    enemycollision = enemy.rect
+    collisionlist = [playerscollision, enemycollision]
+
     """
         While running things
     """
@@ -210,6 +215,13 @@ def main():
         for pos in bulletlist:
             mousex, mousey = pygame.mouse.get_pos()
             test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (mousex, mousey))
+
+
+        # Collision
+        if player.rect.colliderect(enemy.rect):
+            print("HALLO!")
+            text2surface = used_font.render('COLLISION', False, 'Green', 'Peach')
+            SCREEN.blit(text2surface, (500,500))
 
         # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
 
