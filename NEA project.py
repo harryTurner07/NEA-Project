@@ -35,7 +35,7 @@ def main():
     background_img = pygame.image.load("space-background.png")
     spawner = False
 
-
+# Test comment
     # Font things
     used_font = pygame.font.SysFont('Helvetica', 30)
     text_surface = used_font.render('Get Collision working; like player and enemies hitting each other', False, 'Red', 'Black')
