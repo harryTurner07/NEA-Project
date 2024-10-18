@@ -68,10 +68,9 @@ def main():
             self.rect = pygame.draw.rect(SCREEN,"red", pygame.Rect(player_x, player_y, 64, 64))
             self.image = image
             self.rect2 = self.image.get_rect()
-            self.rect2.x = player_x
-            self.rect2.y = player_y
+            self.rect2.center = (player_x, player_y)
         def _playerblit_(self):
-            SCREEN.blit(self.image, (player_x, player_y))
+            SCREEN.blit(self.image, (self.rect2.x, self.rect2.y))
     # Hopefully an enemy class
     # Currently unused
     class Enemy:
