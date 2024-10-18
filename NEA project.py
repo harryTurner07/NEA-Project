@@ -67,9 +67,11 @@ def main():
             self.player_velo = player_vel
             self.rect = pygame.draw.rect(SCREEN,"red", pygame.Rect(player_x, player_y, 64, 64))
             self.image = image
+            self.rect2 = self.image.get_rect()
+            self.rect2.x = player_x
+            self.rect2.y = player_y
         def _playerblit_(self):
             SCREEN.blit(self.image, (player_x, player_y))
-
     # Hopefully an enemy class
     # Currently unused
     class Enemy:
@@ -77,10 +79,12 @@ def main():
             self.enemy_x_pos = random.randint(1, WIDTH)
             self.enemy_y_pos = random.randint(1, HEIGHT)
             self.enemy_velo = enemy_vel
-            self.rect = pygame.draw.rect(SCREEN,"red", pygame.Rect(enemy_x, enemy_y, 64, 64))
+            self.rect = pygame.draw.rect(SCREEN,"green", pygame.Rect(enemy_x, enemy_y, 64, 64))
             self.image = pygame.image.load("Test-Enemy.png")
+            self.rect2 = self.image.get_rect()
         def _enemyblit_(self):
             SCREEN.blit(self.image, (self.enemy_x_pos, self.enemy_y_pos))
+
         # Code to make the enemy move towards the player - From StackOverflow
         # As such I DO NOT claim credit for this function
         def move_towards_player(self, player_x, player_y):
@@ -155,12 +159,6 @@ def main():
 
     test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (enemy_x, enemy_y))
 
-    # Gets the rect of the player and enemy(s)
-    playerscollision = player.rect
-    enemycollision = enemy.rect
-    collisionlist = [playerscollision, enemycollision]
-    collide = pygame.Rect.colliderect(player.rect, enemy.rect)
-
     """
         While running things
     """
@@ -183,8 +181,8 @@ def main():
         # fill the screen with a color to wipe away anything from last frame
         #SCREEN.fill("orange")
         # set the background from the position 0,0
-        SCREEN.blit(background_img, (0,0))
-        SCREEN.blit(text_surface, (0,0))
+        #SCREEN.blit(background_img, (0,0))
+        #SCREEN.blit(text_surface, (0,0))
 
         """ RENDER YOUR GAME HERE """
         # Old code was to spawn in a circle then layer the image on top / override with the image
@@ -199,13 +197,8 @@ def main():
             mousex, mousey = pygame.mouse.get_pos()
             test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (mousex, mousey))
 
-        # Collision
-        if collide:
-            print("HALLO!")
-            text2surface = used_font.render('COLLISION', False, 'Green', 'Black')
-            SCREEN.blit(text2surface, (500,500))
-
-
+        print("Player rect pos", player.rect2)
+        print("Enemy rect pos", enemy.rect2)
         # Code stolen from game py
         # Enemy loops around
         # For the X coordinates
