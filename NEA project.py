@@ -53,28 +53,10 @@ def main():
     enemy_x = random.randint(1, WIDTH)
     enemy_y = random.randint(1, HEIGHT)
     enemy_vel = 3
-    start_time = 0
-    enemy_dict = {
-        "first" : "enemy",
-        "second" : "blank",
-        "third" : "blank",
-        "fourth" : "blank",
-        "fifth" : "blank",
-    }
-
-    # Midpoint stuff
-    total_x = player_x + enemy_y
-    midpoint_x = (total_x // 2)
-    total_y = player_y + enemy_y
-    midpoint_y = (total_y // 2)
-    midpoint_y2 = midpoint_y - random.randint(0,75)
-    player_x2 = player_x - 100
-    player_y2 = player_y - 100
 
     # Mouse config stuff
     # Should hopefully always update the position of the mouse
     mouse_pos = pygame.mouse.get_pos()
-
 
     # Test for making player as a class...
     # IT WORKS !!!!! <---- This will backfire in a few attempts
@@ -83,7 +65,7 @@ def main():
             self.player_x_pos = player_x
             self.player_y_pos = player_y
             self.player_velo = player_vel
-            self.rect = pygame.draw.rect(SCREEN,"white", pygame.Rect(self.player_x_pos, self.player_y_pos, 64, 64))
+            self.rect = pygame.draw.rect(SCREEN,"red", pygame.Rect(player_x, player_y, 64, 64))
             self.image = image
         def _playerblit_(self):
             SCREEN.blit(self.image, (player_x, player_y))
@@ -95,7 +77,7 @@ def main():
             self.enemy_x_pos = random.randint(1, WIDTH)
             self.enemy_y_pos = random.randint(1, HEIGHT)
             self.enemy_velo = enemy_vel
-            self.rect = pygame.draw.rect(SCREEN,"white", pygame.Rect(self.enemy_x_pos, self.enemy_y_pos, 64, 64))
+            self.rect = pygame.draw.rect(SCREEN,"red", pygame.Rect(enemy_x, enemy_y, 64, 64))
             self.image = pygame.image.load("Test-Enemy.png")
         def _enemyblit_(self):
             SCREEN.blit(self.image, (self.enemy_x_pos, self.enemy_y_pos))
@@ -109,8 +91,8 @@ def main():
             dist = math.hypot(dx, dy)
             dx, dy = dx / dist, dy / dist # Normalise
             # Move along this normalised vector towards the player at current speed
-            self.enemy_x_pos += dx * 5
-            self.enemy_y_pos += dy * 5
+            self.enemy_x_pos += dx * enemy_vel
+            self.enemy_y_pos += dy * enemy_vel
             self._enemyblit_()
         def removal_clicked(self, event_list):
             for event in event_list:
@@ -155,8 +137,6 @@ def main():
 
     # Loads the player and the enemy
     plimage = pygame.image.load("Test-Image.png")
-    plimage.convert()
-    rect = plimage.get_rect()
     player = Player(player_x, player_y, player_vel, plimage)
 
     # Putting a max of 5 enemies into a list
@@ -195,7 +175,9 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 bulletlist.append(event.pos)
                 # Adds position to a list
-        
+            if event.type == pygame.MOUSEBUTTONUP:
+                bulletlist.remove(event.pos)
+                # Removes position to a list
 
 
         # fill the screen with a color to wipe away anything from last frame
@@ -217,51 +199,12 @@ def main():
             mousex, mousey = pygame.mouse.get_pos()
             test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (mousex, mousey))
 
-
         # Collision
         if collide:
             print("HALLO!")
             text2surface = used_font.render('COLLISION', False, 'Green', 'Black')
             SCREEN.blit(text2surface, (500,500))
 
-        # Code for moving the enemey around, I think it works but the only thing it does is just mirror the movements
-
-        """
-        # If and while the enemy_x value is lower than the player_x value, increase it
-        if enemy_x < player_x2:
-            while enemy_x < player_x2:
-                enemy_x += enemy_vel
-                SCREEN.blit(enemy, (enemy_x, enemy_y))
-        
-        if enemy_y < player_y2:
-            while enemy_y < player_y2:
-                enemy_y += enemy_vel
-                SCREEN.blit(enemy, (enemy_x, enemy_y))
-        
-        if enemy_x > player_x2:
-            while enemy_x > player_x2:
-                enemy_x -= enemy_vel
-                SCREEN.blit(enemy, (enemy_x, enemy_y))
-
-        if enemy_y > player_y2:
-            while enemy_y > player_y2:
-                enemy_y -= enemy_vel
-                SCREEN.blit(enemy, (enemy_x, enemy_y))
-        """
-
-        """
-        # Borders but for the enemy class(s)
-        # X coordinates
-        if enemy_x < 1:
-            enemy_x = 10
-        if enemy_x > (WIDTH - 1):
-            enemy_x = (WIDTH - 9)
-        # Y coordinates
-        if enemy_y < 1:
-            enemy_y = 10
-        if enemy_y > (HEIGHT - 1):
-            enemy_y = (HEIGHT - 9)
-        """
 
         # Code stolen from game py
         # Enemy loops around
@@ -320,30 +263,7 @@ def main():
 
         # Updates the positions of the player and enemy(s)
         player._playerblit_()
-        enemy._enemyblit_()
 
-        # Enemy movement, selects a random number and depending on the range that the number
-        # goes into, for a range of 10 (not too sure how it works, but it does)
-        # then it increases / decreases the x or y axis by the enemy's velocity
-        """
-        rand_num = random.randint(1,20)
-        if 1 <= rand_num <= 5:
-            for i in range(5):
-                enemy_x += enemy_vel
-                enemy_y -= enemy_vel
-        if 6 <= rand_num <= 10:
-            for i in range(5):
-                enemy_y -= enemy_vel
-                enemy_x -= enemy_vel
-        if 11 <= rand_num <= 15:
-            for i in range(5):
-                enemy_x -= enemy_vel
-                enemy_y += enemy_vel
-        if 16 <= rand_num <= 20:
-            for i in range(5):
-                enemy_y += enemy_vel
-                enemy_x += enemy_vel
-        """
 
         # flip() the display to put your work on screen
         pygame.display.flip()
