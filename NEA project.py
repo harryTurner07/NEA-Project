@@ -94,7 +94,7 @@ def main():
         def _enemyblit_(self):
             SCREEN.blit(self.image, (self.x_pos, self.y_pos))
         def draw_en_hitbox(self, surface):
-            pygame.draw.rect(surface, (128,0,200), self.hitbox)
+            pygame.draw.rect(surface, (0,255,0), self.hitbox)
         # ---
         # Code to make the enemy move towards the player - From StackOverflow
         # As such I DO NOT claim credit for this function
@@ -167,6 +167,7 @@ def main():
     # Adding to list
     enemycontainment = [enemy, enemy2, enemy3, enemy4, enemy5]
     # play around with enemy.surface <- look on pygame
+    not_hit_yet = True # For collision
 
     # Draws a bullet ready to be called
     bullet = pygame.image.load("Test-Bullet.png")
@@ -204,7 +205,13 @@ def main():
         # This was part of a post from stackoverflow where it draws every enemy in enemycontainment.
         for enemy in enemycontainment:
             enemy._enemyblit_()
-            #enemy.move_towards_player(player_x, player_y)
+            enemy.draw_en_hitbox(SCREEN)
+            if enemy.hitbox.colliderect(player.hitbox):
+                not_hit_yet = False
+            else:
+                not_hit_yet = True
+            if not_hit_yet == True:
+                enemy.move_towards_player(player_x, player_y)
         
         # eveytime there's a new position in the list, spawn a bullet
         for pos in bulletlist:
