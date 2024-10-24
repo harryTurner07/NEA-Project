@@ -52,7 +52,7 @@ def main():
     # Enemy 1 (shooter) things
     enemy_x = random.randint(1, WIDTH)
     enemy_y = random.randint(1, HEIGHT)
-    enemy_vel = 3
+    en_vel_x, en_vel_y = 3, 3
 
     # Mouse config stuff
     # Should hopefully always update the position of the mouse
@@ -85,32 +85,37 @@ def main():
     # Currently unused
     class Enemy:
         def __init__(self):
-            self.enemy_x_pos = random.randint(1, WIDTH)
-            self.enemy_y_pos = random.randint(1, HEIGHT)
-            self.enemy_velo = enemy_vel
-            self.rect = pygame.draw.rect(SCREEN,"green", pygame.Rect(enemy_x, enemy_y, 64, 64))
+            self.x_pos = random.randint(1, WIDTH)
+            self.y_pos = random.randint(1, HEIGHT)
+            self.vel_x = en_vel_x
+            self.vel_y = en_vel_y
+            self.hitbox = pygame.draw.rect(SCREEN,"green", pygame.Rect(self.x_pos, self.y_pos, 64, 64))
             self.image = pygame.image.load("Test-Enemy.png")
-            self.rect2 = self.image.get_rect()
         def _enemyblit_(self):
-            SCREEN.blit(self.image, (self.enemy_x_pos, self.enemy_y_pos))
-
+            SCREEN.blit(self.image, (self.x_pos, self.y_pos))
+        def draw_en_hitbox(self, surface):
+            pygame.draw.rect(surface, (128,0,200), self.hitbox)
+        # ---
         # Code to make the enemy move towards the player - From StackOverflow
         # As such I DO NOT claim credit for this function
         def move_towards_player(self, player_x, player_y):
             # Find direction vector (dx, dy) between enemy and player
-            dx, dy = player_x - self.enemy_x_pos, player_y - self.enemy_y_pos
+            dx, dy = player_x - self.x_pos, player_y - self.y_pos
             # Returns the hypotenuse; the long side, so it's a direct line to the player
             # Not entirely what I want to do, but if it works, then I'll keep it that way unless otherwise
             dist = math.hypot(dx, dy)
             dx, dy = dx / dist, dy / dist # Normalise
             # Move along this normalised vector towards the player at current speed
-            self.enemy_x_pos += dx * enemy_vel
-            self.enemy_y_pos += dy * enemy_vel
+            self.x_pos += dx * en_vel_x
+            self.y_pos += dy * en_vel_y
+            # Move the hitbox too
+            self.hitbox.move_ip((dx * en_vel_x), 0)
+            self.hitbox.move_ip(0, (dy * en_vel_y))
             self._enemyblit_()
         def removal_clicked(self, event_list):
             for event in event_list:
                 # If the mouse is clicked and it's on an enemy, remove the enemy - at the moment it's just a print statement just to see if it works :D
-                if event.type == pygame.MOUSEBUTTONDOWN and mouse_pos == range(self.enemy_x_pos, self.enemy_y_pos):
+                if event.type == pygame.MOUSEBUTTONDOWN and mouse_pos == range(self.x_pos, self.y_pos):
                     print("yeoch")
 
 
@@ -206,8 +211,8 @@ def main():
             mousex, mousey = pygame.mouse.get_pos()
             test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (mousex, mousey))
 
-        print("Player rect pos", player.hitbox)
-        #print("Enemy rect pos", enemy.rect2)
+        #print("Player rect pos", player.hitbox)
+        #print("Enemy rect pos", enemy.hitbox)
         # Code stolen from game py
         # Enemy loops around
         # For the X coordinates
@@ -235,9 +240,16 @@ def main():
         if player_y > HEIGHT:
             player_y = 0
 
-        # Hopefully looping for the rect(s)
+        # Looping for the rect(s)
         # Player
-        
+        if player.hitbox.x < 0:
+            player.hitbox.x = WIDTH
+        if player.hitbox.x > WIDTH:
+            player.hitbox.x = 0
+        if player.hitbox.y < 0:
+            player.hitbox.y = HEIGHT
+        if player.hitbox.y > HEIGHT:
+            player.hitbox.y = 0
 
         # Doing the key things
         # Stores the keys pressed
