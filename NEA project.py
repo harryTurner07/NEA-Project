@@ -46,7 +46,7 @@ def main():
     player_x = 100
     player_y = 100
     DEFAULT_PLAYER_POS = (player_x,player_y)
-    player_vel = 10
+    play_vel_x, play_vel_y = 10, 10
     angle = 1
 
     # Enemy 1 (shooter) things
@@ -61,16 +61,26 @@ def main():
     # Test for making player as a class...
     # IT WORKS !!!!! <---- This will backfire in a few attempts
     class Player:
-        def __init__(self, player_x_pos, player_y_pos, player_velo,image):
-            self.player_x_pos = player_x
-            self.player_y_pos = player_y
-            self.player_velo = player_vel
-            self.rect = pygame.draw.rect(SCREEN,"red", pygame.Rect(player_x, player_y, 64, 64))
+        def __init__(self, player_x, player_y, play_vel_x, play_vel_y,image):
+            self.x_pos = player_x
+            self.y_pos = player_y
+            self.vel_x = play_vel_x
+            self.vel_y = play_vel_y
+            self.hitbox = pygame.draw.rect(SCREEN,"red", pygame.Rect(player_x, player_y, 64, 64), width=0)
             self.image = image
-            self.rect2 = self.image.get_rect()
-            self.rect2.center = (player_x, player_y)
         def _playerblit_(self):
-            SCREEN.blit(self.image, (self.rect2.x, self.rect2.y))
+            SCREEN.blit(self.image, (player_x, player_y))
+        def draw_hitbox(self, surface):
+            pygame.draw.rect(surface, (0,0,0), self.hitbox)
+        def hitbox_movement(self,key):
+            if key[pygame.K_a]:
+                self.hitbox.move_ip(-10,0)
+            if key[pygame.K_d]:
+                self.hitbox.move_ip(10,0)
+            if key[pygame.K_w]:
+                self.hitbox.move_ip(0,-10)
+            if key[pygame.K_s]:
+                self.hitbox.move_ip(0,10)
     # Hopefully an enemy class
     # Currently unused
     class Enemy:
@@ -140,7 +150,7 @@ def main():
 
     # Loads the player and the enemy
     plimage = pygame.image.load("Test-Image.png")
-    player = Player(player_x, player_y, player_vel, plimage)
+    player = Player(player_x, player_y, play_vel_x, play_vel_y, plimage)
 
     # Putting a max of 5 enemies into a list
     enemy = Enemy()
@@ -180,8 +190,8 @@ def main():
         # fill the screen with a color to wipe away anything from last frame
         #SCREEN.fill("orange")
         # set the background from the position 0,0
-        #SCREEN.blit(background_img, (0,0))
-        #SCREEN.blit(text_surface, (0,0))
+        SCREEN.blit(background_img, (0,0))
+        SCREEN.blit(text_surface, (0,0))
 
         """ RENDER YOUR GAME HERE """
         # Old code was to spawn in a circle then layer the image on top / override with the image
@@ -189,15 +199,15 @@ def main():
         # This was part of a post from stackoverflow where it draws every enemy in enemycontainment.
         for enemy in enemycontainment:
             enemy._enemyblit_()
-            enemy.move_towards_player(player_x, player_y)
+            #enemy.move_towards_player(player_x, player_y)
         
         # eveytime there's a new position in the list, spawn a bullet
         for pos in bulletlist:
             mousex, mousey = pygame.mouse.get_pos()
             test_line = pygame.draw.line(SCREEN,"green", (player_x, player_y), (mousex, mousey))
 
-        print("Player rect pos", player.rect2)
-        print("Enemy rect pos", enemy.rect2)
+        print("Player rect pos", player.hitbox)
+        #print("Enemy rect pos", enemy.rect2)
         # Code stolen from game py
         # Enemy loops around
         # For the X coordinates
@@ -225,6 +235,9 @@ def main():
         if player_y > HEIGHT:
             player_y = 0
 
+        # Hopefully looping for the rect(s)
+        # Player
+        
 
         # Doing the key things
         # Stores the keys pressed
@@ -234,27 +247,27 @@ def main():
         # if a (left) key is pressed 
         if keys[pygame.K_a]: #and player_x> 0: 
             # decrement in x co-ordinate 
-            player_x -= player_vel
+            player_x -= play_vel_x
         # if d (right) key is pressed 
         if keys[pygame.K_d]: #and player_x < WIDTH - 64: 
             # increment in x co-ordinate 
-            player_x += player_vel
+            player_x += play_vel_x
         # if w (up) key is pressed    
         if keys[pygame.K_w]: #and player_y> 0: 
             # decrement in y co-ordinate 
-            player_y -= player_vel
+            player_y -= play_vel_y
         # if s (down) key is pressed    
         if keys[pygame.K_s]: #and player_y < HEIGHT - 64: 
             # increment in y co-ordinate 
-            player_y += player_vel
+            player_y += play_vel_y
         # Quit Key  
-        q_key = pygame.key.get_pressed()
-        if q_key[pygame.K_q]:
+        if keys[pygame.K_q]:
             running = False
-        #player.movement()
 
         # Updates the positions of the player and enemy(s)
         player._playerblit_()
+        player.draw_hitbox(SCREEN)
+        player.hitbox_movement(keys)
 
 
         # flip() the display to put your work on screen
