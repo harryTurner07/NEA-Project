@@ -1,0 +1,4 @@
+To Do List for NEA:
+
+- Fix collision boxes; meant to be full square
+ - FIX Potentially; Collision boxes get cut off, decrease the range of spawn by 70 to give enough room for the squares to fully develop
