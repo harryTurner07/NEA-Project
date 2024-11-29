@@ -2,3 +2,8 @@ To Do List for NEA:
 
 - Fix collision boxes; meant to be full square
  - FIX Potentially; Collision boxes get cut off, decrease the range of spawn by 70 to give enough room for the squares to fully develop
+
+- Fix the speed of collision boxes
+ - FIX Potentially; Remove the line moving the hitboxes in the move_towards_player procedure, replace with a line just making the hitbox pos the same as enemy self.x/ypos
+
+- Bug where the enemy hitboxes just freeze in mid air, for some reason??
